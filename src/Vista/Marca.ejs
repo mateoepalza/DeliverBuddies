@@ -1,0 +1,44 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>MARCA</h1>
+  <p><a href="#" id="show-form" data-on="false"data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="marca/add" method="POST">
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Nombre" class="form-control" data-tipo="text" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Ingresar Marca
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>idMarca</th>
+          <th>Nombre</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idMarca %></td>
+              <td><%= data[i].nombre %></td>
+              <td>
+                <a href="marca/eliminar/<%= data[i].idMarca %>" class="btn btn-danger">Borrar</a>
+                <a href="marca/actualizar/<%= data[i].idMarca %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<% include facciones/footer %>

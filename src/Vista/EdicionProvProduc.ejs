@@ -1,0 +1,49 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDICIÓN INGRESO PRODUCTOS</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idProveedor %>" method="POST">
+      <p>Proveedor</p>
+      <div class="form-group">
+        <select class="form-control" name="FK_idProveedor" required>
+          <option value="" disabled>Seleccione el Proveedor</option>
+          <% for(let i = 0; i < proveedor.length; i++){ %>
+            <% if( proveedor[i].idProveedor === data.FK_idProveedor ){ %>
+              <option value="<%= proveedor[i].idProveedor %>" selected><%= proveedor[i].idProveedor %> - <%= proveedor[i].nombre %></option>
+            <% }else{ %>
+                <option value="<%= proveedor[i].idProveedor %>"><%= proveedor[i].nombre %> - <%= proveedor[i].nombre %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <p>Producto</p>
+      <div class="form-group">
+        <select class="form-control" name="FK_idProducto" required>
+          <option value="" disabled>Seleccione el Producto</option>
+          <% for(let i = 0; i < producto.length; i++){ %>
+            <% if( producto[i].idProducto === data.FK_idProducto){ %>
+              <option value="<%= producto[i].idProducto %>" selected><%= producto[i].nombre %></option>
+            <% }else{ %>
+              <option value="<%= producto[i].idProducto %>"><%= producto[i].nombre %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <p>Cantidad del producto</p>
+      <div class="form-group">
+        <input type="text" name="Cantidad" value="<%= data.cantidad %>" class="form-control" data-tipo="between-number" data-min="1" data-max="6000000" required>
+      </div>
+      <p>Fecha</p>
+      <div class="form-group">
+        <input type="date" name="Fecha" value="<%= data.fecha %>" class="form-control" data-tipo="date" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<% include facciones/footer %>

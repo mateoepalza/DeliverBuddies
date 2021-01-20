@@ -1,0 +1,36 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDICIÓN DEL COSTO</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idCosto %>" method="POST">
+      <p>Valor</p>
+      <div class="form-group">
+        <input type="text" name="costo" value="<%= data.costo %>" class="form-control" data-tipo="between-number" data-min="0" data-max="3000000" required>
+      </div>
+      <p>Fecha de Cambio</p>
+      <div class="form-group">
+        <input type="date" name="fechaCosto" value="<%= data.fechaCosto %>" class="form-control" data-tipo="date" required>
+      </div>
+      <p>Ruta</p>
+      <div class="form-group">
+        <select name="FK_idRuta" class="form-control" required>
+          <option value="" disabled> Seleccione la ruta </option>
+          <% for(let i = 0; i < rutas.length; i++){ %>
+            <% if(data.FK_idRuta === rutas[i].idRuta){ %>
+              <option value="<%= rutas[i].idRuta%>" selected><%= rutas[i].idRuta %> - <%=rutas[i].nombre%></option>
+            <% }else{ %>
+              <option value="<%= rutas[i].idRuta%>"><%= rutas[i].idRuta %> - <%=rutas[i].nombre%></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<% include facciones/footer %>

@@ -1,0 +1,18 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDICIÓN PERMISO</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= permiso.idPermiso %>" method="POST">
+      <p>URL</p>
+      <div class="form-group">
+        <input type="text" name="url" value="<%= permiso.url %>" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+
+<% include facciones/footer %>

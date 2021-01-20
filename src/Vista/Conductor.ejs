@@ -1,0 +1,79 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>CONDUCTOR</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="conductor/add" method="POST">
+      <div class="form-group">
+        <input type="text" name="idConductor" placeholder="Identificacion" class="form-control" data-tipo="number" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Nombre" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="direccion" placeholder="Direccion" class="form-control" data-tipo="address" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="fechaIngresoEmpresa" placeholder="Fecha de Ingreso" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <p>¿Desea relacionar una ruta?</p>
+        <select name="complete" class="form-control inputHideToggle">
+          <option selected value="false">No</option>
+          <option value="true">Si</option>
+        </select>
+      </div>
+      <div class="inputHide">
+        <div class="form-group">
+          <select class="form-control" name="FK_idRuta">
+            <option value="" selected disabled>Seleccione la ruta</option>
+            <% for(let i = 0; i < rutas.length; i++){ %>
+              <option value="<%= rutas[i].idRuta%>"><%= rutas[i].idRuta %> - <%=rutas[i].nombre%></option>
+            <% } %>
+           </select>
+        </div>
+          <div class="form-group">
+            <input type="text" name="fechaInicio" placeholder="Fecha de Inicio" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" name="fechaFin" placeholder="Fecha de terminación" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control">
+          </div>
+      </div>
+        <button type="submit" class="btn btn-primary">
+          Crear Conductor
+        </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Direccion</th>
+          <th>Fecha Ingreso</th>
+          <th>Config</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idConductor %></td>
+              <td><%= data[i].nombre %></td>
+              <td><%= data[i].direccion %></td>
+              <td><%= data[i].fechaIngresoEmpresa %></td>
+              <td>
+                <a href="conductor/eliminar/<%= data[i].idConductor %>" class="btn btn-danger">Borrar</a>
+                <a href="conductor/actualizar/<%= data[i].idConductor %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer %>

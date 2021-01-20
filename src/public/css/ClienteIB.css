@@ -1,0 +1,41 @@
+#procTitle{
+  width: 100%;
+  height: 50px;
+
+  margin: 60px 0px 40px 0px;
+}
+#procTitle h1{
+  color: #00081c;
+  text-align: center;
+  font-size: 30px;
+  letter-spacing: .4em;
+}
+.pro-body{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0px 80px 0px;
+}
+.pro-body form{
+  width: 50%;
+  height: auto;
+}
+.btn{
+  width: 100%;
+  height: 50px;
+  border: 0px;
+
+  background-color: rgb(0, 8, 28);
+  color: rgb(205, 188, 122);
+
+  transition: .5s;
+  text-align: center;
+  /*line-height: 50px;*/
+
+  text-decoration: none;
+}
+.btn:hover{
+  background-color: rgb(39, 55, 81);
+  color: rgb(205, 188, 122);
+}

@@ -1,0 +1,42 @@
+<% include facciones/headerProducto %>
+<link rel="stylesheet" href="../css/clienteIB.css">
+<div id="procTitle">
+    <h1>ACTUALIZAR INFORMACIÓN BÁSICA</h1>
+</div>
+<div class="pro-body">
+    <form id="form-send" action="./actualizarInfo" method="POST">
+        <div class="form-group">
+          <p>Identificacion</p>
+          <input type="text" readonly="readonly" value="<%= data.idCliente %>" name="idCliente" class="form-control" data-tipo="number" required>
+        </div>
+        <div class="form-group">
+          <p>Nombre</p>
+          <input type="text"  value="<%= data.nombre%>"  name="nombre"  class="form-control" data-tipo="text" required>
+        </div>
+          <div class="form-group">
+            <p>Direccion</p>
+            <input type="text"  value="<%= data.direccion%>"  name="direccion"  class="form-control" data-tipo="address" required>
+          </div>
+          <div class="form-group">
+            <p>Ciudad</p>
+            <select name="FK_idCiudad" class="form-control" required>
+              <% for(let i = 0; i < ciudad.length; i++){%>
+                <% if(ciudad[i].idCiudad == data.FK_idCiudad){%>
+                  <option value="<%=ciudad[i].idCiudad%>" selected><%=ciudad[i].nombre%></option>
+                <% } %>
+                <option value="<%= ciudad[i].idCiudad%>"><%= ciudad[i].nombre%></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="form-group">
+            <p>Contraseña</p>
+            <input type="password" name="contrasena" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">ACTUALIZAR INFORMACIÓN PERSONAL</button>
+          </div>
+      </form>
+</div>
+
+
+ <% include facciones/footerProducto %>

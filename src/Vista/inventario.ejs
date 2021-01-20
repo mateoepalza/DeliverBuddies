@@ -1,0 +1,61 @@
+<% include facciones/header %>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Estante</th>
+                        <th>Configuraciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data){ %>
+                        <% for( var i=0; i < data.length; i++){ %>
+                            <tr>
+                                <td><a href="#" class="popUp" data-id="<%= data[i].FK_idProducto %>" data-title="Producto" data-thead="# de producto,Nombre,Valor Unidad,Url imagen,Marca" data-uri="/mas/producto"><%= data[i].nombre %></a></td>
+                                <td><%= data[i].cantidad %></td>
+                                <td><%= data[i].estante %></td>
+                                <td>
+                                    <a href="/inventario/eliminar/<%= data[i].FK_idProducto %>" class="btn btn-danger">Borrar</a>
+                                    <a href="/inventario/actualizar/<%= data[i].FK_idProducto %>" class="btn btn-info">Editar</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% }  %>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <div class="card-body">
+                    <form id="form-send" action="/Inventario/add" method="POST">
+                        <div class="form-group">
+                          <select name="FK_idProducto" class="form-control" required>
+                            <% for(let i = 0; i < productos.length; i++){ %>
+                              <option value="<%= productos[i].idProducto%>"><%= productos[i].nombre%></option>
+                            <% } %>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="cantidad" placeholder="Cantidad" class="form-control" data-tipo="between-number" data-min="1" data-max="6000000" required>
+                        </div>
+                        <div class="form-group">
+                          <select name="FK_idBodega" class="form-control" required>
+                          <% for(let i = 0; i < bodega.length; i++){ %>
+                            <option value="<%= bodega[i].idBodega%>"><%= bodega[i].estante%></option>
+                          <% } %>
+                          </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Crear Inventario
+                        </button>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include facciones/footer %>

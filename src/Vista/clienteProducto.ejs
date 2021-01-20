@@ -1,0 +1,28 @@
+<% include facciones/headerProducto %>
+<% include facciones/mensajes %>
+
+<section id="pro-container">
+  <div class="filter">
+    <div class="search-bar">
+      <input id="searchB" type="search" placeholder="Busca tu producto">
+    </div>
+    <div class="brand">
+      <select id="filtroSelect">
+        <option value="0" selected>Todos</option>
+        <% if(typeof marca != "undefined"){ %>
+          <% for(let i = 0; i < marca.length; i++){%>
+            <option value="<%= marca[i].idMarca%>"><%= marca[i].nombre %></option>
+          <% } %>
+        <% } %>
+      </select>
+      <button id="filtroMarca" type="button" name="button">Filtrar</button>
+    </div>
+  </div>
+  <div class="pro-section container">
+    <h1>PETITE</h1>
+      <section id="insert-productos" class="productos">
+
+      </section>
+  </div>
+</section>
+<% include facciones/footerProducto %>

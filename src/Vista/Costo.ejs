@@ -1,0 +1,59 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>COSTO</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="costo/add" method="POST">
+      <div class="form-group">
+        <input type="text" name="costo" placeholder="Valor" class="form-control" data-tipo="between-number" data-min="0" data-max="3000000" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="fechaCosto" onfocus="(this.type='date')" onblur="(this.type='text')"  placeholder="Fecha de Cambio" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <select name="FK_idRuta" class="form-control" required>
+          <option value="" disabled selected> Seleccione la ruta </option>
+          <% for(let i = 0; i < rutas.length; i++){ %>
+            <option value="<%= rutas[i].idRuta%>"><%= rutas[i].idRuta %> - <%=rutas[i].nombre%></option>
+          <% } %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Generar Costo
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id del Costo</th>
+          <th>Ruta</th>
+          <th>Fecha de Cambio de Costo</th>
+          <th>Valor</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idCosto %></td>
+              <td><a href="" class="popUp" data-id="<%= data[i].FK_idRuta %>" data-title="Ruta" data-thead="# de ruta,Ciudad Origen,Ciudad Destino,Nombre,Fecha Apertura" data-uri="/mas/ruta"><%= data[i].nombre %></a></td>
+              <td><%= data[i].fechaCosto %></td>
+              <td><%= data[i].costo %></td>
+              <td>
+                <a href="costo/eliminar/<%= data[i].idCosto %>" class="btn btn-danger">Borrar</a>
+                <a href="costo/actualizar/<%= data[i].idCosto %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<% include facciones/footer %>

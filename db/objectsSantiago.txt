@@ -1,0 +1,121 @@
+
+DELIMITER //
+CREATE FUNCTION valorProducto(precio decimal(15,2)) 
+RETURNS VARCHAR(5)
+DETERMINISTIC
+BEGIN
+declare result varchar(5);
+IF(precio<0 or precio>10000000) THEN
+SET result=true;
+ELSE
+SET result='false';
+END IF;
+RETURN result;
+END; //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION calc_fechas(fecha1 date,fecha2 date)
+RETURNS VARCHAR(5)
+DETERMINISTIC
+BEGIN
+declare result varchar(5);
+IF(fecha1 > fecha2) THEN
+SET result='true';
+ELSE
+SET result='false';
+END IF;
+RETURN result;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER duracionRuta BEFORE INSERT ON conductorruta 
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := calc_fechas(NEW.fechaInicio, NEW.fechaFin);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: fecha de inicio no puede ser mayor a la fecha fin';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCosto BEFORE INSERT ON costo
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := valorProducto(NEW.costo);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: el valor del costo debe ser mayor a $0 y menor a $10.000.000';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER fechasPedido BEFORE INSERT ON pedido 
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := calc_fechas(NEW.fechaPedido, NEW.fechaEntrega);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: fecha de pedido no puede ser mayor a la fecha de entrega';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCantidad_proveprod BEFORE INSERT ON proveedorproducto
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := valorProducto(NEW.cantidad);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la cantidad de producto debe ser mayor a 0 und y menor a 10.000.000 und';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCantidad_prodpedido BEFORE INSERT ON productopedido
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := valorProducto(NEW.cantidad);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la cantidad de producto debe ser mayor a 0 und y menor a 10.000.000 und';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarValorProducto BEFORE INSERT ON producto
+FOR EACH ROW 
+BEGIN 
+declare result varchar(5);
+SET result := valorProducto(NEW.valorUnidad);
+IF (result='true') then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: el valor del producto debe ser mayor a $0 y menor a $10.000.000';
+END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCiudadRuta BEFORE INSERT ON ruta
+FOR EACH ROW 
+BEGIN 
+IF (NEW.FK_idCiudadOrigen=NEW.FK_idCiudadDestino) then
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la ciudad de destino no puede ser la misma ciudad de origen';
+END IF;
+END; //
+DELIMITER ;

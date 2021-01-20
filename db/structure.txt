@@ -1,0 +1,370 @@
+create table Administrador (
+  idAdministrador bigint not null,
+  nombre varchar(50) not null,
+  direccion varchar(100) not null,
+  email varchar(100) not null,
+  contrasena varchar(70) not null,
+  primary key (idAdministrador),
+  unique (email)
+);
+
+create table Conductor(
+	idConductor bigint not null,
+	nombre varchar(50) not null,
+	direccion varchar(100) not null,
+	fechaIngresoEmpresa date not null,
+	primary key(idConductor)
+);
+
+create table TelefonoConductor(
+	FK_idConductor bigint not null,
+	telefono int not null,
+	primary key (FK_idConductor, telefono),
+	Foreign Key (FK_idConductor) references Conductor(idConductor)
+);
+
+create table Ciudad(
+	idCiudad int not null auto_increment,
+	nombre varchar(50) not null,
+	primary key(idCiudad)
+);
+
+create table Ruta(
+	idRuta int not null auto_increment,
+	nombre varchar(50) not null,
+	fechaApertura date not null,
+	FK_idCiudadOrigen int not null default 1,
+	FK_idCiudadDestino int not null,
+	primary key(idRuta),
+	Foreign key (FK_idCiudadOrigen) references Ciudad(idCiudad),
+	Foreign key (FK_idCiudadDestino) references Ciudad(idCiudad)
+);
+
+create table Costo(
+	idCosto int not null auto_increment,
+	costo decimal(15,2) not null,
+	fechaCosto date not null,
+	FK_idRuta int not null,
+	primary key(idCosto),
+	Foreign key (FK_idRuta) references Ruta(idRuta)
+);
+
+create table ConductorRuta(
+	idConductorRuta int not null auto_increment,
+	fechaInicio date not null,
+	fechaFin date not null,
+	FK_idConductor bigint not null,
+	FK_idRuta int not null,
+	primary key(idConductorRuta),
+	Foreign key (FK_idConductor) references Conductor(idConductor),
+	Foreign key (FK_idRuta) references Ruta(idRuta)
+);
+
+create table Cliente(
+	idCliente bigint not null,
+	nombre varchar(50) not null,
+	direccion varchar(100) not null,
+	FK_idCiudad int not null,
+	FK_idRuta int not null,
+	email varchar(100) not null,
+	contrasena varchar(70) not null,
+	primary key(idCliente),
+	unique (email),
+	Foreign key (FK_idCiudad) references Ciudad(idCiudad), 
+	Foreign key (FK_idRuta) references Ruta (idRuta)
+);
+
+create table TelefonoCliente(
+	FK_idCliente bigint not null,
+	telefono int not null,
+	primary key(FK_idCliente, telefono),
+	Foreign key (FK_idCliente) references Cliente(idCliente)
+);
+
+create table Pedido(
+	idPedido int not null auto_increment,
+	fechaEntrega date not null,
+	fechaPedido date not null,
+	FK_idCliente bigint not null,
+	FK_idConductorRuta int not null,
+	primary key(idPedido),
+	Foreign key (FK_idCliente) references Cliente(idCliente),
+	Foreign key (FK_idConductorRuta) references ConductorRuta(idConductorRuta)
+);
+
+create table Marca(
+	idMarca int not null auto_increment,
+	nombre varchar(50) not null,
+	primary key(idMarca)
+);
+
+create table Bodega(
+	idBodega int not null auto_increment,
+	estante varchar(10) not null,
+	primary key(idBodega)
+);
+
+create table Producto(
+	idProducto int not null auto_increment,
+	nombre varchar(50) not null,
+	valorUnidad decimal(15,2) not null,
+	urlImage varchar(100) not null,
+	FK_idMarca int not null,
+	FK_idBodega int not null,
+	primary key(idProducto),
+	Foreign Key(FK_idMarca) references Marca(idMarca),
+	Foreign key(FK_idBodega) references Bodega(idBodega)
+);
+
+create table ProductoPedido(
+	FK_idPedido int not null,
+	FK_idProducto int not null,
+	cantidad int not null,
+	primary key(FK_idPedido, FK_idProducto),
+	Foreign key (FK_idPedido) references Pedido(idPedido),
+	Foreign key (FK_idProducto) references Producto(idProducto)
+);
+
+create table Proveedor(
+	idProveedor int not null auto_increment, 
+	nombre varchar(50) not null,
+	direccion varchar(100) not null,
+	personaContacto varchar(50) not null,
+	primary key(idProveedor)
+);
+
+create table TelefonoProveedor(
+	FK_idProveedor int not null,
+	telefono int not null,
+	primary key(FK_idProveedor, telefono),
+	Foreign key (FK_idProveedor) references Proveedor(idProveedor)
+);
+
+create table ProveedorProducto(
+	idProveedorProducto int not null auto_increment,
+	FK_idProveedor int not null,
+	FK_idProducto int not null,
+	fecha date not null,
+	cantidad int not null,
+	primary key(idProveedorProducto),
+	Foreign key (FK_idProveedor) references Proveedor(idProveedor),
+	Foreign key (FK_idProducto) references Producto(idProducto)
+);
+
+create table permiso(
+	idPermiso bigint not null auto_increment,
+	url varchar(100) not null,
+	primary key (idPermiso)
+);
+
+
+create table permisoadministrador(
+  	FK_idAdministrador bigint not null,
+  	FK_idPermiso bigint not null,
+  	primary key (FK_idAdministrador, FK_idPermiso),
+  	Foreign key (FK_idAdministrador) references administrador (idAdministrador),
+	Foreign key (FK_idPermiso) references permiso (idPermiso)
+);
+
+
+create table permisocliente(
+	FK_idCliente bigint not null,
+	FK_idPermiso bigint not null,
+	primary key (FK_idCliente, FK_idPermiso),
+	foreign key (FK_idCliente) references cliente (idCliente),
+	foreign key (FK_idPermiso) references permiso(idPermiso)
+);
+
+
+CREATE VIEW VENTASXCLIENTE 
+AS
+SELECT idcliente,cliente.nombre,cliente.direccion,sum(ProductoPedido.cantidad * Producto.valorUnidad) as CP FROM cliente
+INNER JOIN pedido ON idCliente=FK_idCliente
+INNER JOIN productopedido ON idPedido=FK_idPedido
+INNER JOIN Producto ON FK_idProducto=idProducto group by idcliente;
+
+
+CREATE VIEW VENTASXCIUDAD
+AS
+SELECT ciudad.idCiudad,ciudad.nombre, sum(ProductoPedido.cantidad * Producto.valorUnidad) CiudadP FROM ciudad
+INNER JOIN ruta ON idCiudad=FK_idCiudadDestino
+INNER JOIN conductorruta ON idRuta=FK_idRuta
+INNER JOIN pedido ON idConductorRuta=FK_idConductorRuta
+INNER JOIN productopedido ON idPedido=FK_idPedido
+INNER JOIN Producto ON FK_idProducto=idProducto group by idCiudad order by idCiudad asc;
+
+
+CREATE VIEW CONDUCTORESARUTAS
+AS
+SELECT conductor.idConductor,conductor.nombre as cn,ruta.idRuta,ruta.nombre FROM conductor
+INNER JOIN conductorruta ON idConductor=FK_idConductor
+INNER JOIN ruta ON FK_idRuta = idRuta;
+
+
+CREATE VIEW CLIENTESCXRUTA
+AS
+SELECT cliente.idCliente,cliente.nombre as nc,cliente.direccion,ruta.idRuta,ruta.nombre FROM cliente
+INNER JOIN ruta ON FK_idRuta = idRuta;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE checkStock_p(idProducto INT, newCant INT)
+BEGIN
+	DECLARE cantStock INT;
+	DECLARE cantOut INT;
+	DECLARE realStock INT;
+	DECLARE message varchar(255);
+
+	SELECT sum(cantidad) 
+	INTO cantStock
+	FROM proveedorproducto 
+	WHERE FK_idProducto = idProducto;
+
+	SELECT sum(cantidad)
+	INTO cantOut
+	FROM productopedido
+	WHERE FK_idProducto = idProducto;
+
+	SET realStock = cantStock - cantOut;
+	
+	IF realStock < newCant 	THEN 
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'No hay suficientes productos en el inventario';
+	END IF;
+	
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER checkStock_t BEFORE INSERT
+ON productopedido
+FOR EACH ROW
+BEGIN
+	CALL checkStock_p(NEW.FK_idProducto, NEW.Cantidad);
+END$$
+DELIMITER ;
+
+
+DELIMITER //
+CREATE FUNCTION valorProducto(precio decimal(15,2)) 
+RETURNS VARCHAR(5)
+DETERMINISTIC
+BEGIN
+	DECLARE result varchar(5);
+	IF(precio<0 or precio>10000000) THEN
+		SET result=true;
+	ELSE
+		SET result='false';
+	END IF;
+	RETURN result;
+END; //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION calc_fechas(fecha1 date,fecha2 date)
+RETURNS VARCHAR(5)
+DETERMINISTIC
+BEGIN
+	DECLARE result varchar(5);
+	IF(fecha1 > fecha2) THEN
+		SET result='true';
+	ELSE
+		SET result='false';
+	END IF;
+	RETURN result;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER duracionRuta BEFORE INSERT ON conductorruta 
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := calc_fechas(NEW.fechaInicio, NEW.fechaFin);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: fecha de inicio no puede ser mayor a la fecha fin';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCosto BEFORE INSERT ON costo
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := valorProducto(NEW.costo);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: el valor del costo debe ser mayor a $0 y menor a $10.000.000';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER fechasPedido BEFORE INSERT ON pedido 
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := calc_fechas(NEW.fechaPedido, NEW.fechaEntrega);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: fecha de pedido no puede ser mayor a la fecha de entrega';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCantidad_proveprod BEFORE INSERT ON proveedorproducto
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := valorProducto(NEW.cantidad);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la cantidad de producto debe ser mayor a 0 und y menor a 10.000.000 und';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCantidad_prodpedido BEFORE INSERT ON productopedido
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := valorProducto(NEW.cantidad);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la cantidad de producto debe ser mayor a 0 und y menor a 10.000.000 und';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarValorProducto BEFORE INSERT ON producto
+FOR EACH ROW 
+BEGIN 
+	DECLARE result varchar(5);
+	SET result := valorProducto(NEW.valorUnidad);
+	IF (result='true') then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: el valor del producto debe ser mayor a $0 y menor a $10.000.000';
+	END IF;
+END; //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER validarCiudadRuta BEFORE INSERT ON ruta
+FOR EACH ROW 
+BEGIN 
+	IF (NEW.FK_idCiudadOrigen=NEW.FK_idCiudadDestino) then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: la ciudad de destino no puede ser la misma ciudad de origen';
+	END IF;
+END; //
+DELIMITER ;

@@ -1,0 +1,76 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>CLIENTES</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+        <div class="cardM-form">
+                <form id="form-send" action="./cliente/add" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="idCliente"  data-tipo="number" placeholder="Identificacion" class="form-control"  required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nombre" data-tipo="text" placeholder="Nombre" class="form-control"  required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" data-tipo="email" placeholder="Correo" class="form-control"  required>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="direccion" data-tipo="address" placeholder="direccion" class="form-control"  required>
+                    </div>
+                    <div class="form-group">
+                            <select class="form-control select-ajx" data-call="/mas/select/ruta" data-result=".select-result-ajx" data-template="#masSelectRuta" data-dname="idCiudad" name="FK_idCiudad" required>
+                              <option value="" disabled selected>Seleccione la ciudad de residencia</option>
+                              <% for(let i = 0; i < ciudades.length; i++){ %>
+                                  <option value="<%= ciudades[i].idCiudad%>"><%= ciudades[i].nombre %></option>
+                              <% } %>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                            <select class="form-control select-result-ajx"  name="FK_idRuta" required>
+                              <option value="" disabled selected>Seleccione la ruta</option>
+                            </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Crear Cliente
+                    </button>
+                </form>
+        </div>
+
+    <div class="cardM-table">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Dirección</th>
+                        <th>Ciudad</th>
+                        <th>Ruta</th>
+                        <th>Configuraciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data){ %>
+                        <% for( var i=0; i < data.length; i++){ %>
+                            <tr>
+                                <td><%= data[i].idCliente %></td>
+                                <td><%= data[i].cliente %></td>
+                                <td><%= data[i].email%></td>
+                                <td><%= data[i].direccion %></td>
+                                <td><%= data[i].ciudad %> %></td>
+                                <td><a href="#" class="popUp" data-id="<%= data[i].FK_idRuta %>" data-title="Ruta" data-thead="# de ruta,Ciudad Origen,Ciudad Destino,Nombre,Fecha Apertura" data-uri="/mas/ruta"><%= data[i].ruta %></a></td>
+                                <td>
+                                    <a href="cliente/eliminar/<%= data[i].idCliente %>" class="btn btn-danger">Borrar</a>
+                                    <a href="cliente/actualizar/<%= data[i].idCliente %>" class="btn btn-info">Editar</a>
+                                    <a href="cliente/permisos/<%= data[i].idCliente %>" class="btn btn-success">Permisos</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% }  %>
+                </tbody>
+            </table>
+
+      </div>
+</div>
+
+<% include facciones/footer %>

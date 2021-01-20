@@ -1,0 +1,26 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDITAR CONDUCTOR</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idConductor %>" method="POST">
+      <p>Nombre del conductor</p>
+      <div class="form-group">
+        <input type="text" name="nombre" value="<%= data.nombre %>" class="form-control" data-tipo="text" required>
+      </div>
+      <p>Direccion</p>
+      <div class="form-group">
+        <input type="text" name="direccion" value="<%= data.direccion %>" class="form-control" data-tipo="address" required>
+      </div>
+      <p>Fecha de Ingreso</p>
+      <div class="form-group">
+        <input type="date" name="fechaIngresoEmpresa" value="<%= data.fechaIngresoEmpresa%>" placeholder="Fecha de Ingreso" class="form-control" data-tipo="date" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+
+<% include facciones/footer %>

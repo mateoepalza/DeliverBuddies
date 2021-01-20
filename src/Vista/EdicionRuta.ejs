@@ -1,0 +1,46 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>EDICIÓN RUTA</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idProducto %>" method="POST">
+      <p>Ciudad de Origen</p>
+      <div class="form-group">
+        <select name="FK_idCiudadOrigen" class="form-control" disabled required>
+          <option value="" disabled>Seleccion ciudad de origen</option>
+          <% for(let i = 0; i < ciudades.length; i++){ %>
+            <% if(ciudades[i].idCiudad === data.FK_idCiudadOrigen){ %>
+              <option value="<%= ciudades[i].idCiudad %>" selected><%= ciudades[i].nombre %></option>
+            <% }else{ %>
+              <option value="<%= ciudades[i].idCiudad%>"><%= ciudades[i].nombre %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <p>Ciudad Destino</p>
+      <div class="form-group">
+        <select name="FK_idCiudadDestino" class="form-control" required>
+          <option value="" disabled>Seleccion ciudad de destino</option>
+            <% for(let i = 0; i < ciudades.length; i++){ %>
+              <% if(ciudades[i].idCiudad === data.FK_idCiudadDestino){ %>
+                <option value="<%= ciudades[i].idCiudad %>" selected><%= ciudades[i].nombre %></option>
+              <% }else{ %>
+                <option value="<%= ciudades[i].idCiudad%>"><%= ciudades[i].nombre %></option>
+              <% } %>
+            <% } %>
+        </select>
+      </div>
+      <p>Nombre de la ruta</p>
+      <div class="form-group">
+        <input type="text" name="nombre" value="<%= data.nombre %>" class="form-control" data-tipo="text" required>
+      </div>
+      <p>Fecha de Apertura</p>
+      <div class="form-group">
+        <input type="date" name="fechaApertura" value="<%= data.fechaApertura %>" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+<% include facciones/footer %>

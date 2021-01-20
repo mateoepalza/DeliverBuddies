@@ -1,0 +1,47 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>PERMISO CLIENTE</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="add/<%= idCliente %>" method="POST">
+      <div class="form-group">
+        <select class="form-control" name="FK_idPermiso" required>
+          <option value="" disabled selected>Seleccione la el permiso que desea</option>
+          <% for(let i = 0; i < permisos.length; i++){ %>
+            <option value="<%= permisos[i].idPermiso%>"><%= permisos[i].url %></option>
+          <% } %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Crear Cliente
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Permiso</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idPermiso %></td>
+              <td><%= data[i].url %></td>
+              <td>
+                <a href="eliminar/<%= idCliente %>/<%= data[i].idPermiso %>" class="btn btn-danger">Borrar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer %>

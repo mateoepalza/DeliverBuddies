@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    <title>Ara2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="/js/jquery.js" ></script>
+    <script type="text/javascript" src="/js/productoPeticiones.js" ></script>
+    <script type="text/javascript" src="/js/producto.js" ></script>
+    <script type="text/javascript" src="/js/validaciones.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/producto.css">
+
+    <script type="text/x-handlebars-template" id="alertDanger">
+      <div id="a-danger" style="display: none" class="alert alert-danger alert-dismissible fade show role='alert' ">
+        {{data}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden ="true">&times</span>
+        </button>
+      </div>
+    </script>
+    <script type="text/x-handlebars-template" id="productArticle">
+      <article class='pro' idProducto='{{data.idProducto}}'>
+         <div id='pro{{pos}}' class='pro-img'>
+         </div>
+         <div class='pro-info'>
+           <h3>{{data.nombre}}</h3>
+           <h5>COP {{data.valorUnidad}}</h5>
+           {{#if data.stock }}
+            <button data-id="{{data.idProducto}}" class='agregarCarrito'>Agregar</button>
+           {{else}}
+           <h5 class="agotado">¡Agotado!</h5>
+           <!--<button data-id="{{data.idProducto}}" class='agregarCarrito'>Agregar</button>-->
+           {{/if}}
+
+         </div>
+       </article>
+    </script>
+    <script type="text/x-handlebars-template" id="productoCarrito">
+      <div class='comprar-pro' data-id = '{{data.idProducto}}'>
+        <div id='{{data.id}}' class='compra-img'>
+        </div>
+        <div class='comprar-info'>
+          <h3>{{data.nombre}}</h3>
+          <h4><span class='mult-productos'>1</span> x COP {{data.valorUnidad}}</h4>
+        </div><div class='comprar-btns'>
+          <div class='comprar-btns-top'>
+            <svg class='comprar-delete' viewBox='0 0 15 17' class='SVGIcon__SVG-sc-1a23rvc-0 cPiBDn'>
+              <use href='#icon-delete' xlink:href='#icon-delete'>
+                <g id='icon-delete' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
+                  <g transform='translate(-321.000000, -414.000000)' fill='currentColor'>
+                    <g transform='translate(321.000000, 414.000000)'>
+                      <path d='M4.61538462,12.6614583 L5.76923077,12.6614583 L5.76923077,5.75520833 L4.61538462,5.75520833 L4.61538462,12.6614583 Z M9.23076923,12.6614583 L10.3846154,12.6614583 L10.3846154,5.75520833 L9.23076923,5.75520833 L9.23076923,12.6614583 Z M6.92307692,12.6614583 L8.07692308,12.6614583 L8.07692308,5.75520833 L6.92307692,5.75520833 L6.92307692,12.6614583 Z M2.30769231,14.9635417 L12.6923077,14.9635417 L12.6923077,3.453125 L2.30769231,3.453125 L2.30769231,14.9635417 Z M6.34615385,1.15104167 L8.65384615,1.15104167 C9.29019231,1.15104167 9.80769231,1.66728385 9.80769231,2.30208333 L5.19230769,2.30208333 C5.19230769,1.66728385 5.70980769,1.15104167 6.34615385,1.15104167 L6.34615385,1.15104167 Z M10.9615385,2.30208333 C10.9615385,1.0359375 9.92307692,0 8.65384615,0 L6.34615385,0 C5.07692308,0 4.03846154,1.0359375 4.03846154,2.30208333 L0,2.30208333 L0,3.453125 L1.15384615,3.453125 L1.15384615,16.1145833 L13.8461538,16.1145833 L13.8461538,3.453125 L15,3.453125 L15,2.30208333 L10.9615385,2.30208333 Z' id='Page-1'>
+                      </path>
+                    </g>
+                  </g>
+                </g>
+              </use>
+            </svg>
+          </div>
+          <div class='comprar-btns-bottom'>
+            <span class='cantMin'>-</span>
+            <span class='cant-pro'>1</span>
+            <span class='cantMax'>+</span>
+          </div>
+        </div>
+      </div>
+    </script>
+  </head>
+  <body>
+    <div id="mostrar-alert"></div>
+    <nav id="nav">
+      <div>
+        <a href="/usuario/misPedidos">MIS PEDIDOS</a>
+      </div>
+      <div>
+        <a href="/usuario/">TODOS LOS PRODUCTOS</a>
+      </div>
+
+
+    </nav>
+    <div id="shadow-carrito">
+    </div>
+    <div id="carrito">
+      <div id="header-carrito">
+        <div>
+          <svg id="close-carrito" viewBox="0 0 32 32" class="SVGIcon__SVG-sc-1a23rvc-0 kZZQQg">
+            <use href="#icon-close" xlink:href="#icon-close">
+              <path id="icon-close" fill="currentColor" d="M30 0L16 14 2 0 0 2l14 14L0 30l2 2 14-14 14 14 2-2-14-14L32 2z"></path>
+            </use>
+          </svg>
+        </div>
+        <div>
+          <span>TU CARRITO</span>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div id="carrito-container">
+
+      </div>
+      <div id="carrito-btn">
+        <table>
+          <tr>
+            <td>MANIPULACIÓN Y ENVÍO</td>
+            <td>COP 0</td>
+          </tr>
+          <tr>
+            <td>TOTAL GENERAL</td>
+            <td>COP <span id="price">0</span></td>
+          </tr>
+        </table>
+        <a href="/usuario/checkOut">IR A LA CAJA</a>
+      </div>
+    </div>
+    <div id="wrapper">
+      <header>
+        <div id="pre-menu">
+          <div><a id="menu-icon" data-toggle="false" ><img src="http://127.0.0.1:1520/img/menu.png" width="20px"></a> </div>
+          <div>
+            <a href="/usuario/">
+              <img src="/img/logo.png">
+            </a>
+          </div>
+          <div>
+            <div id="user-options" data-toggle="false">
+              <div id="popUp-user-options">
+                <a href="/usuario/actualizar">Información personal</a>
+                <a href="/logOut">Cerrar sesión</a>
+              </div>
+            </div>
+            <svg id="logo-carrito" data-toggle="false" viewBox="0 0 32 32" class="SVGIcon__SVG-sc-1a23rvc-0 hvticE">
+              <use href="#icon-cart" xlink:href="#icon-cart">
+                <path id="icon-cart" fill="currentColor" d="M3.733 30.267h16.933l2.133-22.533H5.866zM21.467 32H2.934c-.267 0-.533-.133-.667-.267-.133-.267-.267-.4-.133-.667L4.267 6.933c0-.4.4-.8.8-.8H23.6c.267 0 .533.133.667.267s.267.4.267.667L22.267 31.2c0 .4-.4.8-.8.8zm.933-1.733h5.867L26.134 7.734h-1.733zM29.067 32h-7.6c-.267 0-.4-.133-.667-.267-.133-.267-.133-.4-.133-.667L22.8 6.933c.133-.4.4-.8.8-.8h3.333c.4 0 .8.4.8.8l2.133 24.133c.133.267 0 .4-.133.667a1.02 1.02 0 0 1-.667.267zm-7.6-24.533c-.267 0-.533-.133-.533-.533V5.867c0-2.667-2.133-4.667-4.667-4.667S11.6 3.2 11.6 5.867v1.067c0 .4-.267.533-.533.533s-.533-.133-.533-.533V5.867c0-3.2 2.533-5.867 5.733-5.867S22 2.667 22 5.867v1.067c0 .4-.267.533-.533.533">
+                </path>
+              </use>
+            </svg>
+
+          </div>
+        </div>
+        <div id="text-header" class="container">
+          <div id="text">
+            <h1>TODOS LOS PRODUCTOS</h1>
+            <h2>PRODUCTOS BUENOS, BONITOS Y BARATOS</h2>
+          </div>
+        </div>
+      </header>
+      <div id="widget">
+        <div id="widgetRules" class="container">
+          <div>
+            <svg class="USPWidget__USPIcon-sc-1rixtv3-5 kEbjch SVGIcon__SVG-sc-1a23rvc-0 khTbYn" viewBox="0 0 32 32">
+              <use href="#icon-shipping" xlink:href="#icon-shipping">
+                <path id="icon-shipping" fill="currentColor" d="M30.9 16.2c-.1.1-.3.2-.5.3-3.3.4-6.7.7-10 .8-.1 0-.2.1-.2.1l-3.9 3.7c-.2.2-.6.3-.9.2-.3-.1-.6-.4-.6-.7v-3.1c0-.1-.1-.3-.4-.3-2.4-.2-4.8-.4-7.2-.8-.2 0-.4-.1-.5-.2-.2-.1-.2-.3-.2-.5.1-.3.3-.6.7-.5l1-.2c.2 0 .3-.1.3-.3v-2.2c0-.1.2-.2.2-.2h.1c.1 0 .2 0 .2.1l2.2 2.1c.1.1.2.1.3.1L22 13c3.5-.5 6.4.3 8.8 2.3.3.2.3.5.1.9zM15 11.4c0-.3.2-.5.5-.7.3-.1.6-.1.9.2l2.1 1.9-3.5.5v-1.9zm16.3 3.4c-2.6-2.2-5.6-3.1-9.4-2.5l-2.8.4-.1-.1-2.2-2c-.3-.3-.8-.4-1.2-.4h-7c-.1 0-.2.1-.2.2s.1.2.2.2h6.1c-.3.2-.5.6-.5 1v1.9l-2.7.4L9.4 12c-.3-.4-.7-.4-1-.3-.4 0-.7.3-.7.8v1.8l-.7.1c-.7.1-1.2.6-1.2 1.1-.1.4.1.7.3 1 .3.3.6.4 1 .4 2.2.4 4.6.6 6.9.8v2.7c0 .5.2.9.6 1.1H8.5c-.1 0-.2.1-.2.1 0 .1.1.2.2.2h7.2c.4 0 .9-.2 1.1-.5l3.8-3.6c3.3-.1 6.7-.3 9.9-.9.4-.1.7-.2.9-.5.5-.4.4-1.1-.1-1.5zM19 17.4c-1.2 0-2.5-.1-3.3-.1-.1 0-.2.1-.2.1 0 .1 0 .2.1.2.9.1 2.1.1 3.3.1.1 0 .2-.1.2-.2.1 0 0-.1-.1-.1m10.8-2c-8.6 1.6-21.1.2-21.3.1-.1 0-.2.1-.2.2s0 .2.1.2 5.3.7 11.3.7c3.4 0 7-.2 10.1-.8.1 0 .1-.1.1-.2.1-.1 0-.3-.1-.2M6 10.4h1.6c.2 0 .2-.1.2-.1 0-.1-.1-.2-.1-.2H6c-.1 0-.2.1-.2.1 0 .1.1.2.2.2m-1.5 0h.7s.1-.1.1-.2-.1-.2-.2-.2h-.6c-.1 0-.2.1-.2.2 0 .2 0 .2.2.2m3.2 11.2H6.1c-.1 0-.2.1-.2.2s.1.2.2.2h1.6c.1 0 .2-.1.2-.2s-.1-.2-.2-.2m-2.6 0h-.6c-.1 0-.2.1-.2.2s.1.2.2.2h.7c.1 0 .2-.1.2-.2-.1-.1-.3-.2-.3-.2"></path>
+              </use>
+            </svg>
+            <span>FREE DELIVERY</span>
+          </div>
+          <div>
+            <svg class="USPWidget__USPIcon-sc-1rixtv3-5 eFexps SVGIcon__SVG-sc-1a23rvc-0 khTbYn" viewBox="0 0 32 32">
+              <use href="#icon-returns" xlink:href="#icon-returns">
+                <path id="icon-returns" fill="currentColor" d="M18.7 27.8H6.9c-.6 0-.9-.1-1.3-.6-.1-.3-.1-.5-.1-.8V10.5c0-.3 0-.5.3-.7l5.4-5.4c.2-.3.5-.3.8-.3h13.6c.4 0 .7 0 .9.4l5.3 5.3c.2.2.2.5.2.8v15.9c0 .7-.5 1.3-1.3 1.3h-12zm0-1.4h11.4c.5 0 .5 0 .5-.5V11.6c0-.5 0-.5-.5-.5h-6.6c-.3 0-.4 0-.4.5v2.5c0 .4-.2.6-.6.7-1.9.4-3.7.8-5.6 1.2-.6.2-1.3.3-2 .4-.4.1-.7-.1-.8-.6v-4.1c0-.6.1-.5-.5-.5H7.4c-.5 0-.5 0-.5.5v14.5c0 .3.1.4.3.4h.4c3.7-.2 7.4-.2 11.1-.2zm0-15.3h-2.9c-.5 0-.5 0-.5.5v3.3c0 .4 0 .4.5.3.1 0 .3 0 .5-.1.8-.1 1.7-.3 2.5-.5 1.1-.2 2.1-.4 3.2-.6.2-.1.2-.2.2-.4v-2c0-.4 0-.4-.4-.4-1-.1-2-.1-3.1-.1zm7.4-1.4h3.1c.2 0 .2-.1.1-.3 0-.1-.1-.1-.2-.1C28 8.1 26.9 7 25.7 5.8c-.1-.1-.3-.2-.5-.2H22c-.3 0-.3.1-.2.2.4 1.2.8 2.3 1.1 3.5.1.3.2.4.5.3.9 0 1.7.1 2.7.1zm-14.8 0h2.9c.3 0 .5-.1.5-.4.3-1 .6-2.2 1.1-3.3 0-.2 0-.3-.3-.3h-2.1c-.5 0-1-.2-1.3.1-.3.1-.7.6-.9.8L8.5 9.3c-.1 0-.2.1-.2.3.1.2.2.1.4.1h2.6zm7.4 0h3c.3 0 .3 0 .2-.4-.3-1.1-.7-2.3-1-3.4-.1-.2-.3-.3-.5-.3h-3.2c-.2 0-.4.1-.5.3-.3 1.1-.7 2.3-1 3.4-.1.3-.1.4.2.4.9-.1 1.9 0 2.8 0zm4.5 15h-5c-.6 0-.8-.2-.8-.8v-6.5c0-.6.2-.7.8-.7h9.9c.6 0 .8.1.8.7v6.5c0 .6-.2.8-.8.8h-4.9zm-.1-1h4.4c.5 0 .5 0 .5-.4v-5.2c0-.3 0-.3-.4-.3h-8.7c-.3 0-.3 0-.3.4v5.1c0 .5 0 .5.4.5 1.3-.1 2.7-.1 4.1-.1zm.7-2.5h-1.9c0 .1.1.2.1.2.2.2.5.5.8.7.2.3.2.5 0 .6-.1.2-.4.2-.6 0L20.5 21c-.2-.1-.2-.4 0-.6.5-.6 1.1-1.2 1.7-1.8.2-.2.5-.2.6 0 .2.2.2.4 0 .7-.3.3-.6.5-.8.8-.1.1-.1.1-.1.2h3.7c.3 0 .5.1.5.4 0 .2-.2.4-.5.4-.7.1-1.2.1-1.8.1z"></path>
+              </use>
+            </svg>
+            <span>DEVOLUCIÓN GRATIS</span>
+          </div>
+          <div>
+            <svg class="USPWidget__USPIcon-sc-1rixtv3-5 kEbjch SVGIcon__SVG-sc-1a23rvc-0 khTbYn" viewBox="0 0 32 32">
+              <use href="#icon-wrist-watch" xlink:href="#icon-wrist-watch">
+                <path id="icon-wrist-watch" fill="currentColor" d="M29 19.7c-.2 0-.3.1-.3.3v1.5c0 .1.2.3.3.3.2 0 .3-.1.3-.3V20c0-.2-.1-.3-.3-.3zM6.1 12.3c.2 0 .3-.1.3-.3v-1.5c0-.1-.2-.3-.3-.3-.2 0-.3.1-.3.3V12c0 .2.1.3.3.3zM8.1 15.7c-.2 0-.3.1-.3.3s.2.3.3.3c.2 0 .3-.2.3-.3 0-.2-.2-.3-.3-.3zM4.8 13H3.3c-.1 0-.3.2-.3.3 0 .2.1.3.3.3h1.5c.1 0 .3-.2.3-.3 0-.2-.1-.3-.3-.3zM4.1 11c-.1-.1-.2-.1-.3 0-.1.1-.1.2 0 .3l.9.9s.1.1.2.1.1 0 .2-.1.1-.2 0-.3l-1-.9zM31.7 18.4h-1.5c-.1 0-.3.2-.3.3 0 .2.1.3.3.3h1.5c.1 0 .3-.2.3-.3 0-.2-.1-.3-.3-.3zM30.4 19.8c-.1-.1-.2-.1-.3 0-.1.1-.1.2-.1.3l.9.9s.1.1.2.1.1 0 .2-.1.1-.2 0-.3l-.9-.9zM19.6 15.3l-1.9.6-2.2-2.2c-.1-.1-.2-.1-.3 0-.1.1-.1.2 0 .3l2.2 2.2s.1.1.2.1h.1l2-.6c.1 0 .2-.2.1-.3 0-.1-.1-.1-.2-.1zM28.9 13h-6.5c-.2-.4-.5-.7-.8-1-.5-.5-1.1-.9-1.8-1.2-1.4-.6-3-.6-4.4-.1-.7.3-1.4.7-1.9 1.3-.3.3-.6.7-.8 1H6.2c-.3 0-.5.2-.5.4v5.2c.1.2.3.4.5.4h6.5c-.2-.3-.3-.6-.4-.9H6.7v-4.3h5.6c-.3.7-.4 1.4-.4 2.2 0 .7.1 1.5.4 2.1.3.7.7 1.4 1.3 1.9.5.5 1.1.9 1.8 1.2.7.3 1.5.5 2.2.5.7 0 1.5-.1 2.1-.4.7-.3 1.4-.7 1.9-1.3.5-.5.9-1.1 1.2-1.8s.5-1.5.5-2.2-.1-1.5-.4-2.1h5.6v.5h-2.3c-.1 0-.2.2-.2.3 0 .2.1.3.2.3h2.3v.7h-2.2c-.1 0-.2.2-.2.3 0 .2.1.3.2.3h2.2v.7h-2.3c-.1 0-.2.2-.2.3 0 .2.1.3.2.3h2.3v.5h-5.6v.1c-.1.3-.3.5-.4.8h6.4c.3 0 .5-.2.5-.4v-5.2c0-.2-.2-.4-.5-.4zm-7.4 3.3h.8c0 .5-.1 1.1-.4 1.5-.2.6-.6 1.1-1 1.5-.5.5-1 .8-1.6 1.1-.5.2-.9.3-1.4.3v-.8c0-.1-.2-.2-.3-.2-.2 0-.3.1-.3.2v.8c-.5 0-1.1-.1-1.5-.4-.6-.2-1.1-.6-1.5-1-.5-.5-.8-1-1.1-1.6-.2-.5-.3-.9-.3-1.4h.8c.1 0 .2-.2.2-.3s-.1-.3-.2-.3h-.8c0-.5.1-1.1.4-1.5.2-.6.6-1.1 1-1.5.5-.5 1-.8 1.6-1.1.5-.2.9-.3 1.4-.3v.8c0 .1.2.2.3.2.2 0 .3-.1.3-.2v-.8c.5 0 1.1.1 1.5.4.6.2 1.1.6 1.5 1 .5.5.8 1 1.1 1.6.2.5.3.9.3 1.4h-.8c-.1 0-.2.2-.2.3s0 .3.2.3zM10.1 15.7c-.2 0-.3.1-.3.3s.1.3.3.3c.2 0 .3-.1.3-.3s-.1-.3-.3-.3z"></path>
+              </use>
+            </svg>
+            <span>GARANTÍA DE 2 AÑOS</span>
+          </div>
+        </div>
+      </div>

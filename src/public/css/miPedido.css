@@ -1,0 +1,169 @@
+#procTitle{
+  width: 100%;
+  height: 50px;
+
+  margin: 60px 0px 60px 0px;
+}
+#procTitle h1{
+  color: #00081c;
+  text-align: center;
+  font-size: 30px;
+  letter-spacing: .4em;
+}
+#prodContainer{
+  width: 100%;
+  height: auto;
+  margin-bottom: 100px;
+}
+#prodContInt{
+  max-width: 1140px;
+  height: auto;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+}
+#second-title{
+  font-size: 22px;
+  letter-spacing: .2em;
+  text-align: center;
+  margin: 20px 0px;
+  color: #00081c;
+}
+.prodContainer-Left{
+  width: 60%;
+  height: auto;
+  padding: 20px;
+}
+.prodContainer-Right{
+  width: 40%;
+  height: auto;
+  padding: 20px;
+}
+.productoArticle{
+  width: 100%;
+  height: 200px;
+
+  display: flex;
+  flex-flow: row nowrap;
+
+  padding: 20px 0px 20px 0px;
+  border-top: solid 1px rgba(0,0,0,.15);
+}
+.productoArticle:last-of-type{
+  border-bottom:  solid 1px rgba(0,0,0,.15);
+}
+.productoImage{
+  width: 40%;
+  height: 100%;
+  padding: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.productoInfo{
+  width: 60%;
+  height: 100%;
+  padding: 20px;
+}
+.productoInfo > h1{
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: .2em;
+  color: #00081c;
+}
+.infoProducto{
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-flow: row;
+}
+.infoProducto > div{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+.infoProducto-left{
+  width: 50%;
+  height: 100%;
+}
+.infoProducto-right{
+  width: 50%;
+  height: 100%;
+}
+.info-data{
+  /*display: flex;*/
+  flex-flow: row nowrap;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.info-data span{
+  display: block;
+  letter-spacing: 2px;
+}
+.info-data span:first-child{
+  font-size: 10px;
+  color: #787878;
+}
+.info-data span:last-child{
+  font-size: 12px;
+  color: #00081c;
+}
+.prodContainer-right{
+  padding: 20px;
+}
+.facturaArticle{
+  width: 100%;
+  height: 325px;
+  padding: 20px;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  box-shadow: 0 0 8px 2px rgba(0,0,0,.12);
+}
+.facturaArticle > h1{
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: .2em;
+  color: #00081c;
+}
+.info-total{
+  width: 100%;
+  height: 150px;
+  padding: 20px;
+
+  border-top: solid 1px rgba(0,0,0,.15);
+}
+.info-total-data{
+  height: 40px;
+
+  display: flex;
+  flex-flow: row nowrap;
+}
+.info-total-data span{
+  display: block;
+  line-height: 40px;
+}
+.info-total-data span:first-child{
+  width: 60%;
+}
+.info-total-data span:last-child{
+  width: 40%;
+  text-align: right;
+}
+.info-total-data:first-child span{
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #888;
+}
+.info-total-data:last-child span{
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #00081c;
+}
+.info-total-data:last-child{
+  border-top: solid 1px rgba(0,0,0,.15);
+}

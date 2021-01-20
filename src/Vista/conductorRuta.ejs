@@ -1,0 +1,69 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>RUTAS ASIGNADAS</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="conductorRuta/add" method="POST">
+      <div class="form-group">
+        <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Ingrese la fecha de Inicio" name="FechaInicio" placeholder="Fecha de inicio" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Ingrese la fecha de fin" name="FechaFin" placeholder="Fecha de finalizacion" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <select name="FK_idConductor" class="form-control" required>
+          <option value="" disabled selected> Seleccione el conductor </option>
+          <% for(let i = 0; i < conductores.length; i++){ %>
+            <option value="<%= conductores[i].idConductor%>"><%= conductores[i].idConductor%> - <%= conductores[i].nombre%></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <select name="FK_idRuta" class="form-control" required>
+          <option value="" disabled selected> Seleccione la ruta </option>
+          <% for(let i = 0; i < rutas.length; i++){ %>
+            <option value="<%= rutas[i].idRuta%>"><%= rutas[i].idRuta %> - <%=rutas[i].nombre%></option>
+          <% } %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Unir Conductor y Ruta
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Planilla</th>
+          <th>Conductor</th>
+          <th>Ruta</th>
+          <th>Fecha de Inicio</th>
+          <th>Fecha de Finalizacion</th>
+          <th>Config</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idConductorRuta %></td>
+              <td><a href="" class="popUp" data-id="<%= data[i].FK_idConductor %>" data-title="Conductor" data-thead="# de cédula,Nombre,Dirección,Fecha de ingreso a la empresa" data-uri="/mas/conductor"><%= data[i].conductor %></a></td>
+              <td> <a href="" class="popUp" data-id="<%= data[i].FK_idRuta %>" data-title="Ruta" data-thead="# de ruta,Ciudad Origen,Ciudad Destino,Nombre,Fecha Apertura" data-uri="/mas/ruta"><%= data[i].ruta %></a></td>
+              <td><%= data[i].fechaInicio %></td>
+              <td><%= data[i].fechaFin %></td>
+              <td>
+                <a href="conductorRuta/eliminar/<%= data[i].idConductorRuta %>" class="btn btn-danger">Borrar</a>
+                <a href="conductorRuta/actualizar/<%= data[i].idConductorRuta %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<% include facciones/footer %>

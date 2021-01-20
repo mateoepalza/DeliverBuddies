@@ -1,0 +1,70 @@
+
+DELIMITER $$
+
+CREATE PROCEDURE checkStock_p(idProducto INT, newCant INT)
+BEGIN
+	DECLARE cantStock INT;
+	DECLARE cantOut INT;
+	DECLARE realStock INT;
+	DECLARE message varchar(255);
+
+	SELECT sum(cantidad) 
+	INTO cantStock
+	FROM proveedorproducto 
+	WHERE FK_idProducto = idProducto;
+
+	SELECT sum(cantidad)
+	INTO cantOut
+	FROM productopedido
+	WHERE FK_idProducto = idProducto;
+
+	SET realStock = cantStock - cantOut;
+	
+	IF realStock < newCant 	THEN 
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'No hay suficientes productos en el inventario';
+	END IF;
+	
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER checkStock_t BEFORE INSERT
+ON productopedido
+FOR EACH ROW
+BEGIN
+	CALL checkStock_p(NEW.FK_idProducto, NEW.Cantidad);
+END$$
+DELIMITER ;
+
+
+CREATE VIEW VENTASXCLIENTE 
+AS
+SELECT idcliente,cliente.nombre,cliente.direccion,sum(ProductoPedido.cantidad * Producto.valorUnidad) as CP FROM cliente
+INNER JOIN pedido ON idCliente=FK_idCliente
+INNER JOIN productopedido ON idPedido=FK_idPedido
+INNER JOIN Producto ON FK_idProducto=idProducto group by idcliente;
+
+
+CREATE VIEW VENTASXCIUDAD
+AS
+SELECT ciudad.idCiudad,ciudad.nombre, sum(ProductoPedido.cantidad * Producto.valorUnidad) CiudadP FROM ciudad
+INNER JOIN ruta ON idCiudad=FK_idCiudadDestino
+INNER JOIN conductorruta ON idRuta=FK_idRuta
+INNER JOIN pedido ON idConductorRuta=FK_idConductorRuta
+INNER JOIN productopedido ON idPedido=FK_idPedido
+INNER JOIN Producto ON FK_idProducto=idProducto group by idCiudad order by idCiudad asc;
+
+
+CREATE VIEW CONDUCTORESARUTAS
+AS
+SELECT conductor.idConductor,conductor.nombre as cn,ruta.idRuta,ruta.nombre FROM conductor
+INNER JOIN conductorruta ON idConductor=FK_idConductor
+INNER JOIN ruta ON FK_idRuta = idRuta;
+
+CREATE VIEW CLIENTESCXRUTA
+AS
+SELECT cliente.idCliente,cliente.nombre as nc,cliente.direccion,ruta.idRuta,ruta.nombre FROM cliente
+INNER JOIN ruta ON FK_idRuta = idRuta;

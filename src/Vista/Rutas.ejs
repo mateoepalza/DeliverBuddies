@@ -1,0 +1,78 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>RUTAS</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form  id="form-send" action="rutas/add" method="POST">
+      <div class="form-group">
+        <select name="FK_idCiudadDestino" class="form-control" required>
+          <option value="" disabled selected>Seleccione la ciudad Destino</option>
+          <%for(let i=0; i< ciudades.length; i++){  %>
+            <option value="<%= ciudades[i].idCiudad%>"><%= ciudades[i].nombre %></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Nombre de la ruta" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fechaApertura" placeholder="Fecha en que se abrio la ruta" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <p>¿Desea relacionar un costo a la ruta?</p>
+        <select name="complete" class="form-control inputHideToggle">
+          <option selected value="false">No</option>
+          <option value="true">Si</option>
+        </select>
+      </div>
+      <div class="inputHide">
+        <div class="form-group">
+          <input type="text" name="costo" placeholder="Valor" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="text" name="fechaCosto" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Ingrese la fecha de Inicio" placeholder="Fecha de Cambio" class="form-control">
+        </div>
+      </div>
+      <button type="submit" id="btnRuta" class="btn btn-primary">
+        Agregar Ruta
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>idRuta</th>
+          <th>Ciudad de Origen</th>
+          <th>Ciudad Destino</th>
+          <th>Nombre</th>
+          <th>Fecha de Apertura</th>
+          <th>Fecha Cambio Costo</th>
+          <th>Costo</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idRuta %></td>
+              <td><%= data[i].ciudadOrigen %></td>
+              <td><%= data[i].ciudadDestino %></td>
+              <td><%= data[i].nombre %></td>
+              <td><%= data[i].fechaApertura %></td>
+              <td><%= data[i].fechaCosto %></td>
+              <td><%= data[i].costo %></td>
+              <td>
+                <a href="rutas/eliminar/<%= data[i].idRuta %>" class="btn btn-danger">Borrar</a>
+                <a href="rutas/actualizar/<%= data[i].idRuta %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer %>

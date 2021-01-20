@@ -1,0 +1,70 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>PEDIDO</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="/pedido/add" method="POST">
+      <div class="form-group">
+        <select name="FK_idCliente" class="form-control select-ajx" data-call="/mas/select/planilla" data-result=".select-result-ajx" data-template="#masSelectPlanilla" data-dname="idCliente" required>
+          <option value="" disabled selected>Seleccione el cliente</option>
+          <% for(let i = 0; i < clientes.length; i++){%>
+            <option value="<%= clientes[i].idCliente%>"><%= clientes[i].idCliente%> - <%= clientes[i].nombre%></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control select-result-ajx" name="FK_idConductorRuta" required>
+          <option value="" disabled selected>Seleccione la planilla</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select name="Tipo_envio" class="form-control" required>
+          <option value="" disabled selected>Seleccione el tipo de envio</option>
+          <option value="7">Normal</option>
+          <option value="4">Rapido</option>
+          <option value="2">Express</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Crear Pedido
+      </button>
+    </form >
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Fecha de realización del pedido</th>
+          <th>Fecha de entrega</th>
+          <th>Cliente</th>
+          <th>Planilla</th>
+          <th>Total</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idPedido %></td>
+              <td><%= data[i].fechaPedido %></td>
+              <td><%= data[i].fechaEntrega %></td>
+              <td><a href="#" class="popUp" data-id="<%= data[i].FK_idCliente %>" data-title="Cliente" data-thead="# de cédula,Nombre,Dirección,Ciudad,# de ruta,Nombre de ruta" data-uri="/mas/cliente"><%= data[i].cliente %> %></a></td>
+              <td><a href="#" class="popUp" data-id="<%= data[i].FK_idConductorRuta %>" data-title="Conductor - Ruta" data-thead="Planilla,Fecha Inicio,Fecha Fin,# de cedula del conductor,Nombre del conductor,# de ruta,Nombre de ruta" data-uri="/mas/planilla"><%= data[i].FK_idConductorRuta %></a></td>
+              <td><%= data[i].Total %></td>
+              <td>
+                <a href="/pedido/eliminar/<%= data[i].idPedido %>" class="btn btn-danger">Borrar</a>
+                <a href="/pedido/actualizar/<%= data[i].idPedido %>" class="btn btn-info">Editar</a>
+                <a href="#" class="btn btn-success popUp" data-uri="/pedido/mas/" data-id="<%= data[i].idPedido%>" data-title="Productos" data-thead="Nombre,Cantidad,Valor Unidad,Total">Más</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer %>

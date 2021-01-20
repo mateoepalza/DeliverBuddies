@@ -1,0 +1,52 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>EDICIÓN PRODUCTO</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idProducto %>" method="POST" enctype="multipart/form-data">
+      <p>Nombre del producto</p>
+      <div class="form-group">
+        <input type="text" name="nombre" value="<%= data.nombre %>" class="form-control" data-tipo="text" required>
+      </div>
+      <p>Valor por unidad</p>
+      <div class="form-group">
+        <input type="text" name="valorUnidad" value="<%= data.valorUnidad %>" class="form-control" data-tipo="between-number" data-min="50" data-max="5000000" required>
+      </div>
+
+      <p>Marca</p>
+      <div class="form-group">
+        <% if(marcas){ %>
+          <select name="FK_idMarca" class="form-control" required>
+            <% for(let i = 0; i < marcas.length; i++){ %>
+              <% if(marcas[i].idMarca === data.FK_idMarca){ %>
+                <option value="<%= marcas[i].idMarca %>" selected><%= marcas[i].nombre%></option>
+              <% }else{ %>
+                  <option value="<%= marcas[i].idMarca %>"><%= marcas[i].nombre%></option>
+              <% } %>
+            <% } %>
+          </select>
+        <% } %>
+      </div>
+      <p>Ubicación</p>
+      <div class="form-group">
+        <select name="FK_idBodega" class="form-control">
+          <option value="" disabled> Seleccione la ubicación </option>
+          <% for(let i = 0; i < bodegas.length; i++){ %>
+            <% if(bodegas[i].idBodega === data.FK_idBodega){ %>
+              <option value="<%= bodegas[i].idBodega %>" selected><%= bodegas[i].estante%></option>
+            <% } else {%>
+              <option value="<%= bodegas[i].idBodega %>"><%= bodegas[i].estante%></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <p>Imagen</p>
+      <div class="form-group">
+        <input type="file" name="urlImage" value="./src/public/img/productos/<%= data.urlImage %>" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+<% include facciones/footer %>

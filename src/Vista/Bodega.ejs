@@ -1,0 +1,43 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>BODEGA</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+    <div class="cardM-form">
+      <form id="form-send" action="/bodega/add" method="POST">
+          <div class="form-group">
+            <input type="text" name="estante"  placeholder="Nombre del Estante" class="form-control"  required>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Crear Bodega
+          </button>
+      </form >
+    </div>
+
+    <div class="cardM-table">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Id Bodega</th>
+            <th>Estante</th>
+            <th>Configuraciones</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% if(bodega){ %>
+            <% for( var i=0; i < bodega.length; i++){ %>
+              <tr>
+                <td><%= bodega[i].idBodega %></td>
+                <td><%= bodega[i].estante %></td>
+                <td>
+                  <a href="/bodega/eliminar/<%= bodega[i].idBodega %>" class="btn btn-danger">Borrar</a>
+                  <a href="/bodega/actualizar/<%= bodega[i].idBodega %>" class="btn btn-info">Editar</a>
+                </td>
+              </tr>
+            <% } %>
+          <% }  %>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<% include facciones/footer %>

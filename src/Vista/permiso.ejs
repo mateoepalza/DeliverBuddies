@@ -1,0 +1,43 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>PERMISOS</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="/permiso/add" method="POST">
+      <div class="form-group">
+        <input type="text" name="url" placeholder="Ingrese la URL" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Crear Permiso
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>idPermiso</th>
+          <th>URL</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(permiso){ %>
+          <% for( var i=0; i < permiso.length; i++){ %>
+            <tr>
+              <td><%= permiso[i].idPermiso%></td>
+              <td><%= permiso[i].url %></td>
+              <td>
+                <a href="/permiso/eliminar/<%= permiso[i].idPermiso %>" class="btn btn-danger">Borrar</a>
+                <a href="/permiso/actualizar/<%= permiso[i].idPermiso %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer %>

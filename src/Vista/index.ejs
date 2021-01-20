@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Log In</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script type="text/javascript" src="js/validaciones.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/x-handlebars-template" id="alertDanger">
+      <div id="a-danger" style="display: none" class="alert alert-danger alert-dismissible fade show role='alert' ">
+        {{data}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden ="true">&times</span>
+        </button>
+      </div>
+    </script>
+  </head>
+  <body>
+    <% include facciones/mensajes %>
+    <div id="mostrar-alert"></div>
+    <div id="container">
+      <div id="register">
+        <div id="register-left">
+
+          <div id="register-left-color">
+          </div>
+
+        </div>
+        <div id="register-right">
+          <h1>Sign In</h1>
+          <form id="form-send" action="/logIn" method="POST">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Ingrese su email" data-tipo="email" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Ingrese su contraseña"  required>
+            <input type="submit" value="Sign In">
+            <a href="/signUp" class="nav-link">Registrar</a>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

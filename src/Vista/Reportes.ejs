@@ -1,0 +1,118 @@
+<% include facciones/header %>
+  <div class="container">
+    <h1>REPORTES</h1>
+    <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+    <div class="cardMP-form">
+      <form id="form-send" action="/reportes/addReporte" method="POST">
+        <div class="form-group">
+          <select name="reporte" class="form-control">
+            <option value="" disabled selected>Seleccione el reporte</option>
+            <option value="1">Valor Ventas por Cliente</option>
+            <option value="2">Valor Ventas por Ciudad</option>
+            <option value="3">Conductores Asignados a Rutas</option>
+            <option value="4">Clientes Cubiertos por Cada Ruta</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Mostrar Reporte
+        </button>
+      </form >
+    </div>
+      <div class="cardM-table">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <% if(CP){ %>
+                <th>IdCliente</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Valor Compras por Cliente</th>
+              <% }  %>
+              <% if(CiudadC){ %>
+                <th>IdCiudad</th>
+                <th>Nombre</th>
+                <th>Valor Compras por Ciudad</th>
+              <% }  %>
+              <% if(CR){ %>
+                <th>IdConductor</th>
+                <th>Nombre</th>
+                <th>idRuta</th>
+                <th>Ruta</th>
+              <% }  %>
+              <% if(CC){ %>
+                <th>IdCliente</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>idRuta</th>
+                <th>Ruta</th>
+              <% }  %>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(CP){ %>
+              <% for( var i=0; i < CP.length; i++){ %>
+                <tr>
+                  <td><%= CP[i].idcliente%></td>
+                  <td><%= CP[i].nombre %></td>
+                  <td><%= CP[i].direccion %></td>
+                  <td><%= CP[i].CP %></td>
+                </tr>
+              <% } %>
+            <% }  %>
+            <% if(CiudadC){ %>
+              <% for( var i=0; i < CiudadC.length; i++){ %>
+                <tr>
+                  <td><%= CiudadC[i].idCiudad%></td>
+                  <td><%= CiudadC[i].nombre %></td>
+                  <td><%= CiudadC[i].CiudadP %></td>
+                </tr>
+              <% } %>
+          <% }  %>
+          <% if(CR){ %>
+            <% for( var i=0; i < CR.length; i++){ %>
+              <tr>
+                <td><%= CR[i].idConductor%></td>
+                <td><%= CR[i].cn%></td>
+                <td><%= CR[i].idRuta%></td>
+                <td><%= CR[i].nombre%></td>
+              </tr>
+            <% } %>
+          <% }  %>
+          <% if(CC){ %>
+            <% for( var i=0; i < CC.length; i++){ %>
+              <tr>
+                <td><%= CC[i].idCliente%></td>
+                <td><%= CC[i].nc%></td>
+                <td><%= CC[i].direccion%></td>
+                <td><%= CC[i].idRuta%></td>
+                <td><%= CC[i].nombre%></td>
+              </tr>
+            <% } %>
+          <% }  %>
+        </tbody>
+      </table>
+    </div>
+    <% if(BUTTON){ %>
+      <% if(CP){ %>
+        <a href="/reportes/PDF/1" class="btn btn-danger">Imprimir Reporte</a>
+      <% } %>
+      <% if(CiudadC){ %>
+        <a href="/reportes/PDF/2" class="btn btn-danger">Imprimir Reporte</a>
+      <% } %>
+      <% if(CR){ %>
+        <a href="/reportes/PDF/3" class="btn btn-danger">Imprimir Reporte</a>
+      <% } %>
+      <% if(CC){ %>
+        <a href="/reportes/PDF/4" class="btn btn-danger">Imprimir Reporte</a>
+      <% } %>
+    <% } %>
+    <% if(typeof pdf != 'undefined'){%>
+      <script type="text/javascript">
+        var URLdomain = window.location.host;
+        console.log(URLdomain+'/'+'<%= pdf%>');
+        window.open('http://'+URLdomain+'/'+'<%= pdf%>', '_blank');
+      </script>
+    <% } %>
+</div>
+
+<% include facciones/footer %>

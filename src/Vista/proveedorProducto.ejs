@@ -1,0 +1,67 @@
+<% include facciones/header  %>
+<div class="container">
+  <h1>INGRESO DE PRODUCTOS</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="proveedorProducto/add" method="POST">
+      <div class="form-group">
+        <select class="form-control" name="FK_idProveedor" required>
+          <option value="" disabled selected>Seleccione el proveedor</option>
+          <% for(let i = 0; i < proveedor.length; i++){ %>
+            <option value="<%= proveedor[i].idProveedor%>"><%= proveedor[i].idProveedor %> - <%= proveedor[i].nombre %></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="FK_idProducto" required>
+          <option value="" disabled selected>Seleccione el producto a ingresar</option>
+          <% for(let i = 0; i < productos.length; i++){ %>
+            <option value="<%= productos[i].idProducto%>"><%= productos[i].nombre %></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="text" name="cantidad" placeholder="Cantidad de productos" class="form-control" data-tipo="between-number" data-min="1" data-max="6000000" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="fecha" placeholder="Fecha" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control" data-tipo="date" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Crear Proveedor con sus Productos
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id Proveedor Producto</th>
+          <th>Proveedor</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Fecha</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idProveedorProducto %></td>
+              <td><a href="#" class="popUp" data-id="<%= data[i].FK_idProveedor %>" data-title="Proveedor" data-thead="# proveedor,Nombre del proveedor,Direccion,Persona de Contacto" data-uri="/mas/proveedor"><%= data[i].proveedor %></a></td>
+              <td><a href="#" class="popUp" data-id="<%= data[i].FK_idProducto %>" data-title="Producto" data-thead="# de producto,Nombre,Valor Unitario,Marca" data-uri="/mas/producto"><%= data[i].producto %><a></td>
+              <td><%= data[i].cantidad %></td>
+              <td><%= data[i].fecha %></td>
+              <td>
+                <a href="proveedorProducto/eliminar/<%= data[i].idProveedorProducto %>" class="btn btn-danger">Borrar</a>
+                <a href="proveedorProducto/actualizar/<%= data[i].idProveedorProducto %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footer  %>

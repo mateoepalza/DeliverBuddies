@@ -1,0 +1,54 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>PROVEEDOR</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="/proveedor/add" method="POST">
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Nombre" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="direccion" placeholder="Direccion" class="form-control" data-tipo="address" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="personaContacto" placeholder="Contacto" class="form-control" data-tipo="text" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Agregar Proveedor
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>IdProveedor</th>
+          <th>Nombre</th>
+          <th>Direccion</th>
+          <th>Persona de Contacto</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idProveedor %></td>
+              <td><%= data[i].nombre %></td>
+              <td><%= data[i].direccion %></td>
+              <td><%= data[i].personaContacto %></td>
+              <td>
+                <a href="proveedor/eliminar/<%= data[i].idProveedor %>" class="btn btn-danger">Borrar</a>
+                <a href="proveedor/actualizar/<%= data[i].idProveedor %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<% include facciones/footer %>

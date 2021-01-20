@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/font.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script type="text/javascript" src="/js/validaciones.js"></script>
+    <script id="mas" type="text/x-handlebars-template">
+      <h1 class="table-remove" >{{title}}</h1>
+      <table class="table table-bordered table-hover table-remove">
+        <thead>
+          <tr>
+          {{#each head }}
+            <th>{{this}}</th>
+          {{/each }}
+          </tr>
+        </thead>
+        <tbody>
+          {{#each body }}
+            <tr>
+              {{#each this}}
+              <td>{{this}}</td>
+              {{/each }}
+            </tr>
+          {{/each }}
+        </tbody>
+      </table>
+    </script>
+    <script type="text/x-handlebars-template" id="masSelectRuta">
+      {{#each data}}
+        <option value="{{this.idRuta}}">{{this.nombre}}</option>
+      {{/each}}
+    </script>
+    <script type="text/x-handlebars-template" id="alertDanger">
+      <div id="a-danger" style="display: none" class="alert alert-danger alert-dismissible fade show role='alert' ">
+        {{data}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden ="true">&times</span>
+        </button>
+      </div>
+    </script>
+    <script type="text/x-handlebars-template" id="masSelectPlanilla">
+      {{#each data}}
+        <option value="{{this.idConductorRuta}}">{{this.idConductorRuta}}</option>
+      {{/each}}
+    </script>
+    <script type="text/javascript" src="http://127.0.0.1:1520/js/popUp.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:1520/js/template.js"></script>
+</head>
+<body>
+  <% include mensajes %>
+  <div id="shadow">
+    <div id="shadow-container">
+    </div>
+  </div>
+  <nav id="nav">
+      <ul>
+        <li><a href="/reportes">Reportes</a></li>
+        <li><a href="/conductor">Conductor</a>
+          <ul>
+            <li><a href="/conductorRuta">Rutas asignadas</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/rutas">Ruta</a>
+          <ul>
+            <li><a href="/costo">Costos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/pedido">Pedido</a>
+        </li>
+        <li><a href="/cliente">Cliente</a></li>
+        <li><a href="/producto">Producto</a>
+          <ul>
+            <li><a href="/marca">Marca</a></li>
+            <li><a href="/bodega">Bodega</a></li>
+          </ul>
+        </li>
+        <li><a href="/proveedor">Proveedor</a>
+          <ul>
+            <li><a href="/proveedorproducto">Ingreso productos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/permiso">Permisos</a>
+        </li>
+      </ul>
+  </nav>
+      <div id="pre-menu">
+        <div><a id="menu-icon" data-toggle="false" ><img src="http://127.0.0.1:1520/img/menu.png" width="20px"></a> </div>
+        <div>
+          <a href="#">
+            <img src="/img/logo.png">
+          </a>
+        </div>
+        <div>
+          <div id="user-options" data-toggle="false">
+            <div id="popUp-user-options">
+              <a href="/profile">Información personal</a>
+              <a href="/logOut">Cerrar sesión</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="mostrar-alert">
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

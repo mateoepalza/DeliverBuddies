@@ -1,0 +1,97 @@
+<% include facciones/headerProducto %>
+<link rel="stylesheet" href="/css/checkOut.css">
+<div id="procTitle">
+    <h1>PROCESO DE COMPRA</h1>
+</div>
+<div id="procBody">
+  <div id="procBody-container">
+    <div class="procBody-LR" id="procBody-left">
+      <form action="./compra" method="post">
+        <div class="info" >
+          <h1>1. LO ESENCIAL</h1>
+          <div class="info-personal-general">
+            <div class="info-personal info-personal-left">
+              <div class="info-personal-data">
+                <span>NOMBRE</span>
+                <span><%= data.nombre%></span>
+              </div>
+              <div class="info-personal-data">
+                <span>CORREO ELECTRONICO</span>
+                <span><%= data.email%></span>
+              </div>
+            </div>
+            <div class="info-personal info-personal-right">
+              <div class="info-personal-data">
+                <span>DIRECCIÓN</span>
+                <span><%= data.direccion%></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="info">
+          <h1>2. ENTREGA</h1>
+          <div  class="info-personal-general">
+            <div class="info-personal info-personal-left">
+              <div class="info-personal-data">
+                <span>ENVIADO CON</span>
+                <span>UPS express</span>
+              </div>
+              <div class="info-personal-data">
+                <span>TIPO DE ENVÍO</span>
+                <span>
+                  <select id="tipo-envio" class="form-control" name="tipoEnvio" required>
+                    <option value="" selected disabled >tipo de envío</option>
+                    <option value="7">Normal</option>
+                    <option value="4">Rapido</option>
+                    <option value="2">Express</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="info-personal info-personal-right">
+              <div class="info-personal-data">
+                <span>FECHA DE ENTREGA</span>
+                <span id="fecha-pedido">N/A</span>
+              </div>
+              <div class="info-personal-data">
+                <span>CIUDAD DE DESTINO</span>
+                <span><%= data.ciudad%></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="info" id="completar-pedido">
+          <button>COMPLETAR PEDIDO</button>
+        </div>
+      </form>
+    </div>
+    <div class="procBody-LR" id="procBody-right">
+      <div id="prodCompra">
+        <% for(let i = 0; i < product.length; i++){ %>
+          <div class="producto">
+            <div class="imgProducto" style="background-image: url('../img/productos/<%= product[i].urlImage %>');">
+            </div>
+            <div class="producto-info">
+              <h3><%= product[i].nombre %></h3>
+              <h4><%= product[i].cant%> X COP <%= product[i].valorUnidad%></h4>
+            </div>
+          </div>
+        <%}%>
+        <div id="prodTotal">
+          <table>
+            <tr>
+              <td>MANIPULACIÓN Y ENVÍO</td>
+              <td>COP 0</td>
+            </tr>
+            <tr>
+              <td>TOTAL GENERAL</td>
+              <td>COP <%= total%></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include facciones/footerProducto %>

@@ -1,0 +1,56 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDITAR CLIENTE</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idCliente%>" method="POST">
+      <div class="form-group">
+        <p>Nombre</p>
+        <input type="text" value="<%= data.nombre%>" name="nombre" placeholder="Nombre" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <p>Correo</p>
+        <input type="text" value="<%= data.email%>" name="email" placeholder="Correo" class="form-control" data-tipo="email" required>
+      </div>
+      <div class="form-group">
+        <p>Direccion</p>
+        <input type="text" value="<%= data.direccion%>" name="direccion" placeholder="direccion" class="form-control" data-tipo="address" required>
+      </div>
+      <div class="form-group">
+        <p>Ciudad</p>
+        <select class="form-control select-ajx" name="FK_idCiudad" data-call="/mas/select/ruta" data-result=".select-result-ajx" data-template="#masSelectRuta" data-dname="idCiudad" required>
+          <option value="" disabled>Seleccione la ciudad de residencia</option>
+          <% for(let i = 0; i < ciudades.length; i++){ %>
+            <% if(ciudades[i].idCiudad === data.FK_idCiudad){ %>
+              <option value="<%= ciudades[i].idCiudad%>" selected><%= ciudades[i].nombre %></option>
+            <% }else{ %>
+              <option value="<%= ciudades[i].idCiudad%>"><%= ciudades[i].nombre %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <p>Ruta</p>
+        <select class="form-control select-result-ajx" name="FK_idRuta" required>
+          <option value="" disabled>Seleccione la ruta</option>
+          <% for(let i = 0; i < rutas.length; i++){ %>
+            <% if(rutas[i].idRuta === data.FK_idRuta){ %>
+              <option value="<%= rutas[i].idRuta%>" selected><%= rutas[i].nombre %></option>
+            <% }else{ %>
+              <option value="<%= rutas[i].idRuta%>"><%= rutas[i].nombre %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <p>Contraseña</p>
+        <input type="password" value="" name="contrasena" placeholder="Ingrese una contraseña provisional " class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Actualizar Cliente
+      </button>
+    </form>
+  </div>
+</div>
+
+<% include facciones/footer %>

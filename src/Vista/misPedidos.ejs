@@ -1,0 +1,36 @@
+<% include facciones/headerProducto %>
+<script type="text/javascript" src="/js/popUp.js"></script>
+<link rel="stylesheet" href="/css/misPedidos.css">
+
+<div id="procTitle">
+    <h1>MIS PEDIDOS</h1>
+</div>
+<div id="pedidos-container">
+  <div class="pedidosCentral">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>No de pedido</th>
+          <th>Fecha de realización del pedido</th>
+          <th>Fecha de entrega del pedido</th>
+          <th>No de ruta asociado</th>
+          <th>Valor total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let i = 0; i < pedido.length; i++){ %>
+          <tr>
+            <td><a href="./misPedidos/<%= pedido[i].idPedido%>"> <%= pedido[i].idPedido %></a></td>
+            <td><%= pedido[i].fechaPedido %></td>
+            <td><%= pedido[i].fechaEntrega %></td>
+            <td><%= pedido[i].FK_idConductorRuta %></td>
+            <td><%= pedido[i].valorTotal %></td>
+          </tr>
+        <% } %>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include facciones/footerProducto %>

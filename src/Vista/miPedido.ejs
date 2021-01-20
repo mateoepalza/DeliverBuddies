@@ -1,0 +1,92 @@
+<% include facciones/headerProducto %>
+<script type="text/javascript" src="/js/popUp.js"></script>
+<link rel="stylesheet" href="/css/miPedido.css">
+
+<div id="procTitle">
+    <h1>MI PEDIDO</h1>
+</div>
+
+<div id="prodContainer">
+    <div id="prodContInt">
+      <div class="prodContainer-Left">
+        <h1 id="second-title" >INFORMACIÓN DE LOS PRODUCTOS</h1>
+          <% for(let j = 0; j < productos.length; j++){%>
+            <div class= "productoArticle">
+              <div class="productoImage" style="background-image: url('../../img/productos/<%= productos[j].urlImage %>');">
+              </div>
+              <div class="productoInfo">
+                <h1><%= productos[j].nombre %></h1>
+                <div class="infoProducto">
+                  <div class="infoProducto-left">
+                    <div class="info-data">
+                      <span>MARCA</span>
+                      <span><%= productos[j].marca %></span>
+                    </div>
+
+                    <div class="info-data">
+                      <span>CANTIDAD</span>
+                      <span><%= productos[j].cantidad %></span>
+                    </div>
+                  </div>
+                  <div class="infoProducto-right">
+                    <div class="info-data">
+                      <span>VALOR</span>
+                      <span><%= productos[j].valorUnidad %></span>
+                    </div>
+                    <div class="info-data">
+                      <span>TOTAL</span>
+                      <span><%= productos[j].valorTotal %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <%}%>
+
+
+
+      </div>
+      <div class="prodContainer-Right">
+        <% for(let i = 0; i < pedido.length; i++){%>
+        <div class="facturaArticle">
+          <h1>INFORMACIÓN DEL PEDIDO</h1>
+          <div class="infoProducto">
+            <div class="infoProducto-left">
+              <div class="info-data">
+                <span>Nº PEDIDO</span>
+                <span><%= pedido[i].idPedido%></span>
+              </div>
+              <div class="info-data">
+                <span>FECHA PEDIDO</span>
+                <span><%= pedido[i].fechaPedido %></span>
+              </div>
+            </div>
+            <div class="infoProducto-right">
+              <div class="info-data">
+                <span>Nº PLANILLA</span>
+                <span><%= pedido[i].FK_idConductorRuta %></span>
+              </div>
+              <div class="info-data">
+                <span>FECHA DE ENTREGA</span>
+                <span><%= pedido[i].fechaEntrega %></span>
+              </div>
+            </div>
+          </div>
+          <div class="info-total">
+            <div class="info-total-data">
+              <span>MANIPULACIÓN Y ENVÍO</span>
+              <span>COP 0</span>
+            </div>
+            <div class="info-total-data">
+              <span>TOTAL GENERAL</span>
+              <span>COP <%= pedido[i].valorTotal%></span>
+            </div>
+          </div>
+        </div>
+        <%}%>
+      </div>
+    </div>
+
+
+</div>
+<% include facciones/footerProducto %>

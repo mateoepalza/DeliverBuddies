@@ -1,0 +1,56 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>EDICIÓN PEDIDO</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idPedido%>" method="POST">
+      <div class="form-group">
+        <p>Fecha Entrega</p>
+        <input type="text" readonly="readonly" value="<%= data.fechaEntrega%>" name="fechaEntrega" class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <p>Fecha Pedido</p>
+        <input type="date" readonly="readonly" value="<%= data.fechaPedido%>"  name="fechaPedido"  class="form-control" data-tipo="date" required>
+      </div>
+      <div class="form-group">
+        <p>Tipo de Envio</p>
+        <select name="Tipo_envio" class="form-control" required>
+          <option value="7">Normal</option>
+          <option value="4">Rapido</option>
+          <option value="2">Express</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <p>Cliente</p>
+        <select name="FK_idCliente" class="form-control select-ajx" data-call="/mas/select/planilla" data-result=".select-result-ajx" data-template="#masSelectPlanilla" data-dname="idCliente" required>
+          <option value="" disabled>Seleccione el cliente</option>
+          <% for(let i = 0; i < clientes.length; i++){%>
+            <% if(clientes[i].idCliente === data.FK_idCliente){%>
+              <option value="<%= clientes[i].idCliente%>" selected><%= clientes[i].idCliente%> - <%= clientes[i].nombre%></option>
+            <% }else{%>
+              <option value="<%= clientes[i].idCliente%>"><%= clientes[i].idCliente%> - <%= clientes[i].nombre%></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <p>Planilla</p>
+        <select class="form-control select-result-ajx" name="FK_idConductorRuta" required>
+          <option value="" disabled >Seleccione la planilla</option>
+          <% for(let i = 0; i < conductorRutas.length; i++){ %>
+            <% if(conductorRutas[i].idConductorRuta === data.FK_idConductorRuta){%>
+              <option value="<%= conductorRutas[i].idConductorRuta%>" selected><%= conductorRutas[i].idConductorRuta %></option>
+            <% }else{%>
+              <option value="<%= conductorRutas[i].idConductorRuta%>"><%= conductorRutas[i].idConductorRuta %></option>
+            <% } %>
+          <% } %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Actualizar Pedido
+      </button>
+    </form>
+  </div>
+</div>
+
+<% include facciones/footer %>

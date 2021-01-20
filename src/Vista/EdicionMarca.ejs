@@ -1,0 +1,16 @@
+<% include facciones/header %>
+<div class="container">
+  <h1>EDICIÓN MARCA</h1>
+  <div class="cardMP-form">
+    <form id="form-send" action="<%= data.idMarca %>" method="POST">
+      <div class="form-group">
+        <p>Nombre de la Marca</p>
+        <input type="text" name="nombre" value="<%= data.nombre %>" class="form-control" data-tipo="text" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Confirmar Cambios
+      </button>
+    </form>
+  </div>
+</div>
+<% include facciones/footer %>

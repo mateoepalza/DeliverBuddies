@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Sing Up</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script type="text/javascript" src="js/validaciones.js"></script>
+    <!--<script type="text/javascript" src="http://127.0.0.1:1520/js/template.js"></script>-->
+    <link rel="stylesheet" href="css/registro.css">
+    <script type="text/x-handlebars-template" id="masSelect">
+      {{#each data}}
+        <option value="{{this.idRuta}}">{{this.nombre}}</option>
+      {{/each}}
+    </script>
+    <script type="text/x-handlebars-template" id="alertDanger">
+      <div id="a-danger" style="display: none" class="alert alert-danger alert-dismissible fade show role='alert' ">
+        {{data}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden ="true">&times</span>
+        </button>
+      </div>
+    </script>
+  </head>
+  <body>
+    <% include facciones/mensajes %>
+    <div id="mostrar-alert"></div>
+    <div id="container">
+      <div id="register">
+        <div id="register-left">
+          <div id="register-left-color">
+          </div>
+        </div>
+        <div id="register-right">
+          <h1>Sign Up</h1>
+          <form id="form-send" action="/signUp" method="POST">
+            <label>Identificacion</label>
+            <input type="text" name="idCliente" placeholder="Identificacion" data-tipo="number" required>
+            <label>Nombre Completo</label>
+            <input type="text" name="nombre" placeholder="Ingrese su nombre" data-tipo="text" required>
+            <label>Direccion</label>
+            <input type="text" name="direccion" placeholder="Ingrese su direccion" data-tipo="address" required>
+            <label>Ciudad</label>
+                <select class="form-control select-ajx" data-call="/mas/select/ruta" data-result=".select-result-ajx" name="FK_idCiudad" required>
+                    <option value="" disabled selected>Seleccione la ciudad de residencia</option>
+                    <% for(let i = 0; i < ciudades.length; i++){ %>
+                        <option value="<%= ciudades[i].idCiudad %>"><%= ciudades[i].nombre %></option>
+                    <% } %>
+                </select>
+
+            <!--<label>Rutas Disponibles</label>
+                <select class="form-control select-result-ajx"  name="FK_idRuta">
+                    <option value="" disabled selected>Seleccione la ruta</option>
+                    <% for(let i = 0; i < rutas.length; i++){ %>
+                        <option value="<%= rutas[i].idRuta %>"><%= rutas[i].nombre %></option>
+                    <% } %>
+                </select>-->
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Ingrese su email" data-tipo="email" required>
+            <label>Password</label>
+            <input type="password" name="contrasena" placeholder="Ingrese su contraseña" data-tipo="password" required>
+            <input id="repassword" type="password"  placeholder="Repita su contraseña" required>
+            <input type="submit" value="Sign Up">
+            <a href="/" class="nav-link">Cancelar</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

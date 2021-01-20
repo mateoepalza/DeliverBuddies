@@ -1,0 +1,78 @@
+<% include facciones/header %>
+
+<div class="container">
+  <h1>PRODUCTO</h1>
+  <p><a href="#" id="show-form" data-on="false" data-toggle="true"></a></p>
+  <div class="cardM-form">
+    <form id="form-send" action="producto/add" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Nombre del producto" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="valorUnidad" placeholder="Valor Unitario" class="form-control" data-tipo="between-number" data-min="50" data-max="5000000" required>
+      </div>
+      <div class="form-group">
+        <select name="FK_idMarca" class="form-control" required>
+          <option value="" selected disabled> Seleccione la marca </option>
+          <% for(let i = 0; i < marcas.length; i++){ %>
+            <option value="<%= marcas[i].idMarca %>"><%= marcas[i].nombre%></option>
+          <% } %>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <select name="FK_idBodega" class="form-control" required>
+          <option value="" selected disabled> Seleccione la ubicación </option>
+          <% for(let i = 0; i < bodegas.length; i++){ %>
+            <option value="<%= bodegas[i].idBodega %>"><%= bodegas[i].estante%></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="file" name="urlImage" placeholder="Imagen" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Agregar Producto
+      </button>
+    </form>
+  </div>
+  <div class="cardM-table">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>idProducto</th>
+          <th>Nombre</th>
+          <th>Valor Unitario</th>
+          <th>Imagen</th>
+          <th>Marca</th>
+          <th>Stock</th>
+          <th>Ubicación</th>
+          <th>Configuraciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data){ %>
+          <% for( var i=0; i < data.length; i++){ %>
+            <tr>
+              <td><%= data[i].idProducto %></td>
+              <td><%= data[i].nombre %></td>
+              <td><%= data[i].valorUnidad %></td>
+              <td><%= data[i].urlImage %></td>
+              <td><%= data[i].marca %></td>
+              <td><%= data[i].stock %></td>
+              <td><%= data[i].ubicacion %></td>
+              <td>
+                <a href="producto/eliminar/<%= data[i].idProducto %>" class="btn btn-danger">Borrar</a>
+                <a href="producto/actualizar/<%= data[i].idProducto %>" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+          <% } %>
+        <% }  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<% include facciones/footer %>

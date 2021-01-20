@@ -1,0 +1,44 @@
+<% include facciones/header %>
+
+<div class="container">
+  <div class="cardMP-form">
+    <h2 style="text-align:center;"><%= data.nombre %></h2>
+    <h4 style="text-align:center;">ESTOS SON TUS DATOS ACTUALES</h4>
+    <form id="form-send" action=" <%= data.idAdministrador %> " method="POST">
+      <div class="form-group">
+        <p>Identificacion</p>
+        <input type="text" value="<%= data.idAdministrador %>" name="idAdministrador" readonly="readonly" class="form-control"  data-tipo="number" required>
+      </div>
+      <div class="form-group">
+        <p>Nombre</p>
+        <input type="text" value="<%= data.nombre %>" name="nombre" class="form-control" data-tipo="text" required>
+      </div>
+      <div class="form-group">
+        <p>Direccion</p>
+        <input type="text" value="<%= data.direccion %>" name="direccion" class="form-control" data-tipo="address" required>
+      </div>
+      <div class="form-group">
+        <p>Correo</p>
+        <input type="email" value="<%= data.email %>" name="email" class="form-control" data-tipo="email" required>
+      </div>
+      <div class="from-group">
+        <p>Contraseña</p>
+        <input type="password" name="contrasena" class="form-control" required>
+      </div>
+      <div>
+        <p>
+
+        </p>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">ACTUALIZAR INFORMACION PERSONAL</button>
+      </div>
+      <div class="clas-group">
+        <h4 style="text-align:center;"><a href="/profile">CANCELAR</a></h4>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<% include facciones/footer %>

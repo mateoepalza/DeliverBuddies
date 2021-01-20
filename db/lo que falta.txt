@@ -1,0 +1,49 @@
+FALTA:
+* revisar que nose pueda pedir productos que no hay en stock ------------ LISTO--------------------------- LISTO---------------
+* realizar una transaccion que me revise que los productos que estoy ingresando se pueden ingresar debido a la cantidad en stock ------------ LISTO--------------------------- LISTO---------------
+* Los telefonos de todos
+* mis pedidos en cliente------------ LISTO--------------------------- LISTO---------------
+* Vistas para los pdfs------------ LISTO--------------------------- LISTO---------------
+
+
+
+VISTAS, REGLAS, SP
+
+- Conductorruta------------ LISTO--------------------------- LISTO---------------
+	-> fechainicio debe ser menor que fecha fin
+- Costo------------ LISTO--------------------------- LISTO---------------
+	-> El valor del costo debe ser mayor a 0 y menor de 10.000.000
+- Pedido------------ LISTO--------------------------- LISTO---------------
+	-> fecha de pedido deber ser menor que la fecha de entrega
+
+- Proveedor producto ------------ LISTO--------------------------- LISTO---------------
+	-> la cantidad deber ser mayor a 0 y menor a 10.000.000
+
+-ProductoPedido ------------ LISTO--------------------------- LISTO---------------
+	-> La cantidad de producto debe ser mayor a 0 y menor a 10.000.000
+
+-Producto ------------ LISTO--------------------------- LISTO---------------
+	-> valorUnidad deber ser mayor a 0 y menor a 10.000.000
+
+-Ruta ------------ LISTO--------------------------- LISTO---------------
+	-> la ciudad de destino debe ser diferente a bogota
+
+
+* Contraseña en administrador no puede ser nullable ------------ LISTO--------------------------- LISTO---------------
+* email en administrador y cliente tienen que ser unique ------------ LISTO--------------------------- LISTO---------------
+* mirar como es el unique en sql standard
+* preguntar donde se coloca el unique y el autoincrement en el diccionario de datos
+* tabla permiso revisar porque debe ser auto_increment y url not null ------------ LISTO--------------------------- LISTO---------------
+* Mirar el regExp de direccion ------------ LISTO--------------- ------------ LISTO---------------
+* En proveedorproducto arreglar la fecha en el update ------------ LISTO--------------- ------------ LISTO---------------
+* Permisos ------------ LISTO--------------- ------------ LISTO---------------
+* Permisos se debe validar que no se meta dos veces la misma ruta
+* Permisos cliente ------------ LISTO--------------- ------------ LISTO---------------
+* Permisos admin
+* Bodega ------------ LISTO--------------- ------------ LISTO---------------
+* menu cliente ------------ LISTO--------------- ------------ LISTO---------------
+* mejorar la vista del update en la mayoria de vistas ------------ LISTO--------------- ------------ LISTO---------------
+* revisar cliente y administrador porque no deja crear ni actualizar nuevos usuarios ------------ LISTO---------------
+* Usar el boton de mas para poder visualizar lo productos ------------ LISTO--------------- ------------ LISTO---------------
+* al agregar cliente agregar en la tabla permisoscliente
+* crear el middleware
